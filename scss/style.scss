@@ -150,19 +150,25 @@ p {
   }
 
   img,
-  p {
+  p,
+  ul {
     @include marginCentre;
   }
-
-  p {
-    &:last-of-type {
-      border-bottom: 5px solid $text;
-      padding-bottom: 1rem;
-      @media screen and (min-width: 1280px) {
-        padding-bottom: 2rem;
-        border-bottom: 8px solid $text;
-      }
+  // was p
+  ul {
+    // &:last-of-type {
+    max-width: 60ch;
+    border-bottom: 5px solid $text;
+    padding-bottom: 1rem;
+    @media screen and (min-width: 1280px) {
+      padding-bottom: 2rem;
+      border-bottom: 8px solid $text;
     }
+    // }
+  }
+
+  li {
+    // max-width: 60ch;
   }
 
   h2 {
