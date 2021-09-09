@@ -4,8 +4,12 @@ $text: rgb(39, 39, 39);
 $link: #5357a6;
 $linkHover: #841e1e;
 
-$bodybg: white;
-$containerbg: #f8f8f8;
+$bgcolor: #f8f8f8;
+
+@mixin constrain($width, $maxwidth) {
+  width: $width;
+  max-width: $maxwidth;
+}
 
 @mixin marginCentre {
   margin-left: auto;
@@ -32,15 +36,11 @@ body {
   padding: 0 1rem;
   font-size: 1rem;
   line-height: 1.5;
-  background-color: $containerbg;
+  background-color: $bgcolor;
   color: $text;
 
   @media screen and (min-width: 960px) {
     font-size: 1.25rem;
-  }
-
-  @media screen and (min-width: 1280px) {
-    background-color: $bodybg;
   }
 }
 
@@ -52,35 +52,8 @@ h4 {
   font-family: $fontSpecial;
 }
 
-h1 {
-  font-size: 2rem;
-  padding: 1rem 0 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  img {
-    width: 160px;
-  }
-
-  .expand-acronynm {
-    font-size: 1.6rem;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  @media screen and (min-width: 960px) {
-    font-size: 3rem;
-    padding: 2rem 0 0 0;
-
-    .expand-acronynm {
-      font-size: 2rem;
-    }
-  }
-}
-
 h2 {
   font-size: 1.6rem;
-  // text-transform: uppercase;
   padding-top: 1.5rem;
 
   @media screen and (min-width: 960px) {
@@ -138,48 +111,59 @@ p {
 }
 
 .header {
+  border-bottom: 5px solid $text;
+  padding-bottom: 1rem;
+  @media screen and (min-width: 1280px) {
+    padding-bottom: 2rem;
+    border-bottom: 8px solid $text;
+  }
   h1,
   span,
   img {
     margin-bottom: 0;
   }
 
-  span {
-    display: block;
-    text-align: center;
-  }
-
-  img,
-  p,
-  ul {
-    @include marginCentre;
-  }
-  // was p
-  ul {
-    // &:last-of-type {
-    max-width: 60ch;
-    border-bottom: 5px solid $text;
-    padding-bottom: 1rem;
-    @media screen and (min-width: 1280px) {
-      padding-bottom: 2rem;
-      border-bottom: 8px solid $text;
+  &-title {
+    font-size: 2rem;
+    padding: 1rem 0 0 0;
+    img {
+      width: 160px;
     }
-    // }
+
+    &-wrap {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    @media screen and (min-width: 960px) {
+      font-size: 3rem;
+      padding: 2rem 0 0 0;
+    }
   }
 
-  li {
-    // max-width: 60ch;
+  &-acronmym {
+    padding-right: 1rem;
   }
 
-  h2 {
-    text-align: center;
-    text-transform: uppercase;
+  &-acronym-expand {
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-style: italic;
+
+    @media screen and (min-width: 960px) {
+      font-size: 2rem;
+    }
+  }
+
+  &-list {
+    max-width: 60ch;
   }
 }
 
 .container {
   max-width: 80rem;
-  background-color: $containerbg;
+  background-color: $bgcolor;
 
   @media screen and (min-width: 1280px) {
     padding: 0 2rem 2rem 2rem;
@@ -204,6 +188,7 @@ p {
       display: flex;
       align-items: flex-start;
       padding: 1.5rem 0;
+      align-items: center;
     }
   }
 
@@ -275,6 +260,11 @@ p {
   }
 }
 
+.virus-capsid {
+  @include constrain(100%, 740px);
+  @include marginCentre;
+}
+
 .life-cycle {
   @media screen and (max-width: 740px) {
     &-image-wrap {
@@ -288,7 +278,7 @@ p {
   img {
     margin: auto auto 1rem auto;
 
-    @media screen and (min-width: 700px) {
+    @media screen and (min-width: 960px) {
       margin: 0 0 0 auto;
     }
   }
@@ -318,6 +308,9 @@ a {
     text-align: right;
     font-weight: 400;
     border-bottom: 1px dotted $link;
+  }
+  &.url-text {
+    word-break: break-all;
   }
 }
 
@@ -359,7 +352,7 @@ a {
   font-family: $fontSpecial;
   padding: 0.25rem 0.5rem;
   margin-left: 1rem;
-  color: $bodybg;
+  color: white;
   background-color: $link;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -388,4 +381,41 @@ a {
 .card-list {
   padding-left: 0;
   list-style-type: none;
+}
+
+@supports ((width: fit-content) or (width: -moz-fit-content)) {
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-align: center;
+  }
+  .header {
+    &-title-wrap {
+      display: block;
+
+      span {
+        display: block;
+        @include marginCentre;
+      }
+    }
+    &-logo {
+      display: block;
+      @include marginCentre;
+    }
+  }
+
+  .fit,
+  .fit-list,
+  .life-cycle-wrap {
+    width: -moz-fit-content;
+    width: fit-content;
+    @include marginCentre;
+  }
+  @media screen and (min-width: 960px) {
+    .life-cycle-wrap {
+      width: auto;
+      margin: 0;
+    }
+  }
 }
